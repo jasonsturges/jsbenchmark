@@ -1,6 +1,9 @@
-import { sleep } from "./utils";
+import { EventDispatcher } from "./EventDispatcher";
 import { Test } from "./Test";
+import { TestEvent } from "./TestEvent";
 import { TestResultSet } from "./TestResultSet";
+import { TestSuiteResult } from "./TestSuiteResult";
+import { sleep } from "./utils";
 
 /**
  * Optional parameters
@@ -15,13 +18,24 @@ type Options = {
 /**
  * Suite of test cases for comparison.
  */
-export class TestSuite {
+export class TestSuite extends EventDispatcher {
   private queue: Set<Test> = new Set<Test>();
 
   /**
    * Whether tests should be run asynchronously between passes.
+   * This provides time for garbage collection.
    */
   public async: boolean = true;
+
+  /**
+   * Maximum number of milliseconds to execute each test pass.
+   */
+  public maxRuntime: number = 1000;
+
+  /**
+   * Minimum number of operations to execute each pass
+   */
+  public operations: number = 1000;
 
   /**
    * Number of passes to execute each test.
@@ -30,16 +44,6 @@ export class TestSuite {
    * will be executed.
    */
   public passes: number = 5;
-
-  /**
-   * Minimum number of operations to execute each pass
-   */
-  public operations: number = 1000;
-
-  /**
-   * Maximum number of milliseconds to execute each test pass.
-   */
-  public maxRuntime: number = 1000;
 
   /**
    * @constructor
@@ -53,6 +57,8 @@ export class TestSuite {
       maxRuntime: 1000,
     }
   ) {
+    super();
+
     this.async = options.async;
     this.passes = options.passes;
     this.operations = options.operations;
@@ -77,18 +83,18 @@ export class TestSuite {
    * Execute all tests in the test suite
    */
   public async run() {
-    const resultSet = new TestResultSet();
+    const suiteResult = new TestSuiteResult();
 
     for (let test of this.queue) {
-      console.log(test.name);
+      // Test result set, containing all passes
+      const resultSet = new TestResultSet();
 
       let pass: number = 0;
       let runtime: number = 0;
-      let start = Date.now();
+      let startTime: number = Date.now();
 
       do {
         ++pass;
-        runtime = Date.now() - start;
 
         const result = test.run();
 
@@ -99,14 +105,20 @@ export class TestSuite {
           resultSet.add(result);
         }
 
+        runtime = Date.now() - startTime;
+
+        this.dispatch({ type: TestEvent.PASS, test: test, result: result });
+
         if (this.async) {
           await sleep(50);
         }
       } while (pass < this.passes && runtime < this.maxRuntime);
 
-      resultSet.log();
+      suiteResult.add(test, resultSet);
+      this.dispatch({ type: TestEvent.TEST, test: test, resultSet: resultSet });
     }
 
+    this.dispatch({ type: TestEvent.SUITE, result: suiteResult });
     return this;
   }
 }
