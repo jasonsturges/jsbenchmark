@@ -6,7 +6,7 @@ import pkg from "./package.json";
 export default [
   // browser-friendly UMD build
   {
-    input: "src/main.js",
+    input: "src/main.ts",
     output: {
       name: "jsbenchmark",
       file: pkg.browser,
@@ -22,7 +22,7 @@ export default [
   // an array for the `output` option, where we can specify
   // `file` and `format` for each target)
   {
-    input: "src/main.js",
+    input: "src/main.ts",
     plugins: [typescript()],
     output: [
       { file: pkg.main, format: "cjs" },
