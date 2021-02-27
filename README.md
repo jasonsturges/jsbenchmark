@@ -91,4 +91,4 @@ Log10(0)
     
 ```
 
-The test is executed for ten passes, with each pass executing the function 1 million times.
+The test is executed for ten passes, with each pass executing the function 1 million times unless maximum runtime exceeds one second.
