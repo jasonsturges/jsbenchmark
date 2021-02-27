@@ -36,12 +36,12 @@ new JSBench.Test("Log 10", () => {
 The above would output:
 
 ```
-    total time: 11.28000    ops/second: 88,652,482
+    total time: 10.31500    ops/second: 96,946,195
 ```
 
 The test is executed for one pass, executing the function one million times.
 
-Total time for the test was 11.2 milliseconds, resulting in 88 million operations per second
+Total time for the test was ~10 milliseconds, resulting in ~97 million operations per second
 
 
 ## Test Suite
@@ -78,16 +78,16 @@ The above would output:
 
 ```
 Log10(100000)
-    min: 10.26000   avg: 11.38071    max: 12.40000    ops/second: 88,177,315
+     min: 8.07500    avg: 9.08600    max: 10.39000    ops/second: 110,917,308
 
 Log10(2)
-    min: 7.96500    avg: 11.17047    max: 12.40000    ops/second: 90,171,735
+     min: 6.98500    avg: 8.55900    max: 10.39000    ops/second: 118,257,790
     
 Log10(1)
-    min: 7.96500    avg: 11.04000    max: 12.60500    ops/second: 91,597,143
+     min: 6.98500    avg: 8.84733    max: 12.13000    ops/second: 115,240,134
     
 Log10(0)
-    min: 7.96500    avg: 11.13280    max: 12.76000    ops/second: 90,789,885
+     min: 6.98500    avg: 9.54700    max: 12.54000    ops/second: 108,184,087
     
 ```
 
