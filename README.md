@@ -78,7 +78,7 @@ The above would output:
 
 ```
 Log10(100000)
-    min: 10.26000    avg: 11.38071    max: 12.40000    ops/second: 88,177,315
+    min: 10.26000   avg: 11.38071    max: 12.40000    ops/second: 88,177,315
 
 Log10(2)
     min: 7.96500    avg: 11.17047    max: 12.40000    ops/second: 90,171,735
