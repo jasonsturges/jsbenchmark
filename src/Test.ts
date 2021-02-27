@@ -24,7 +24,7 @@ export class Test {
   /**
    * Minimum number of operations to execute each pass
    */
-  public operations: number = 10;
+  public operations: number = 1000;
 
   /**
    * @constructor
@@ -35,12 +35,11 @@ export class Test {
   constructor(
     name: string,
     fn: Function,
-    options: Options = { operations: 10, async: true }
+    options: Options = { operations: 1000 }
   ) {
     this.name = name;
     this.fn = fn;
     this.operations = options.operations;
-    this.async = options.async;
 
     return this;
   }

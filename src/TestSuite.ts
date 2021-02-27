@@ -8,6 +8,7 @@ import { TestResultSet } from "./TestResultSet";
 type Options = {
   async: boolean;
   passes: number;
+  operations: number;
   maxRuntime: number;
 };
 
@@ -31,6 +32,11 @@ export class TestSuite {
   public passes: number = 5;
 
   /**
+   * Minimum number of operations to execute each pass
+   */
+  public operations: number = 1000;
+
+  /**
    * Maximum number of milliseconds to execute each test pass.
    */
   public maxRuntime: number = 1000;
@@ -39,9 +45,17 @@ export class TestSuite {
    * @constructor
    * @param options
    */
-  constructor(options: Options = { async: true, passes: 5, maxRuntime: 1000 }) {
+  constructor(
+    options: Options = {
+      async: true,
+      passes: 5,
+      operations: 1000,
+      maxRuntime: 1000,
+    }
+  ) {
     this.async = options.async;
     this.passes = options.passes;
+    this.operations = options.operations;
     this.maxRuntime = options.maxRuntime;
 
     return this;
@@ -53,7 +67,7 @@ export class TestSuite {
    * @param fn - Function to be called
    */
   public add(name: string, fn: Function) {
-    const test = new Test(name, fn);
+    const test = new Test(name, fn, { operations: this.operations });
     this.queue.add(test);
 
     return this;
