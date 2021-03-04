@@ -49,20 +49,15 @@ export class TestSuite extends EventDispatcher {
    * @constructor
    * @param options
    */
-  constructor(
-    options: Options = {
-      async: true,
-      passes: 5,
-      operations: 1000,
-      maxRuntime: 1000,
-    }
-  ) {
+  constructor(options: Partial<Options> = {}) {
     super();
 
     this.async = options.async;
     this.passes = options.passes;
     this.operations = options.operations;
     this.maxRuntime = options.maxRuntime;
+
+    Object.assign(this, options);
 
     return this;
   }

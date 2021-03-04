@@ -32,14 +32,11 @@ export class Test {
    * @param fn - Function to be called
    * @param options - Optional parameters
    */
-  constructor(
-    name: string,
-    fn: Function,
-    options: Options = { operations: 1000 }
-  ) {
+  constructor(name: string, fn: Function, options: Partial<Options> = {}) {
     this.name = name;
     this.fn = fn;
-    this.operations = options.operations;
+
+    Object.assign(this, options);
 
     return this;
   }
