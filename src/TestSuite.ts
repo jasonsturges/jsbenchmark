@@ -79,7 +79,7 @@ export class TestSuite extends EventDispatcher {
 
   /**
    * Add a test case specifying a manual loop for
-   * higher resolution in testing fine grained operations
+   * higher resolution in testing fine-grained operations
    * by manually specifying the test loop.
    */
   public addManual(name: string, fn: Function, operations: number) {

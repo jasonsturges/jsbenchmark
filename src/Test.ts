@@ -70,7 +70,7 @@ export class Test {
   /**
    * Manual execution, running only once.
    *
-   * This enables higher resolution in testing fine grained
+   * This enables higher resolution in testing fine-grained
    * operations by manually specifying the test loop.
    *
    * No function overhead is incurred in obtaining test results.
