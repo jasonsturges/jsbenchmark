@@ -48,12 +48,13 @@ export class Test {
    * Execute the test, returning `TestResult`
    */
   public run() {
+    const { fn } = this;
     const result = new TestResult();
     result.operations = this.operations;
     result.start();
 
     for (let i = 0; i < this.operations; i++) {
-      this.fn.call();
+      fn.call(null, i)
     }
 
     result.stop();
