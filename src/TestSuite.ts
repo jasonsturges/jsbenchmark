@@ -1,6 +1,7 @@
 import { EventDispatcher } from "./EventDispatcher";
 import { Test } from "./Test";
 import { TestEvent } from "./TestEvent";
+import { TestResult } from "./TestResult";
 import { TestResultSet } from "./TestResultSet";
 import { TestSuiteResult } from "./TestSuiteResult";
 import { sleep } from "./utils";
@@ -68,7 +69,24 @@ export class TestSuite extends EventDispatcher {
    * @param fn - Function to be called
    */
   public add(name: string, fn: Function) {
-    const test = new Test(name, fn, { operations: this.operations });
+    const test = new Test(name, fn, {
+      operations: this.operations,
+    });
+    this.queue.add(test);
+
+    return this;
+  }
+
+  /**
+   * Add a test case specifying a manual loop for
+   * higher resolution in testing fine grained operations
+   * by manually specifying the test loop.
+   */
+  public addManual(name: string, fn: Function, operations: number) {
+    const test = new Test(name, fn, {
+      operations: operations ?? this.operations,
+      manual: true,
+    });
     this.queue.add(test);
 
     return this;
@@ -87,11 +105,16 @@ export class TestSuite extends EventDispatcher {
       let pass: number = 0;
       let runtime: number = 0;
       let startTime: number = Date.now();
+      let result: TestResult;
 
       do {
         ++pass;
 
-        const result = test.run();
+        if (test.manual) {
+          result = test.runManual();
+        } else {
+          result = test.run();
+        }
 
         // If time was immeasurable, disregard sample
         if (result.totalTime === 0) {
