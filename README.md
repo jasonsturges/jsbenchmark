@@ -58,6 +58,9 @@ new JSBench.TestSuite({
   .add("ceil", () => {
     Math.ceil(Math.PI);
   })
+  .add("trunc", () => {
+    Math.trunc(Math.PI);
+  })
   .add("toFixed", () => {
     Math.PI.toFixed();
   })
@@ -98,6 +101,9 @@ floor
 
 ceil
     min: 8.81500    avg: 11.52324    max: 12.36500    ops/second: 87,225,180
+    
+trunc
+    min: 8.92000    avg: 11.53265    max: 12.11500    ops/second: 87,089,952
 
 toFixed
     min: 247.60500    avg: 258.02000    max: 264.34000    ops/second: 3,878,004
