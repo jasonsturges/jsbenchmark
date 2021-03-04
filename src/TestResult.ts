@@ -9,18 +9,26 @@ export class TestResult {
    */
   public operations: number;
 
+  public getTimer(): number {
+    if (typeof window !== "undefined") {
+      return performance.now();
+    }
+
+    return new Date().getTime();
+  }
+
   /**
    * Mark start of test
    */
   public start(): void {
-    this._startTime = performance.now();
+    this._startTime = this.getTimer();
   }
 
   /**
    * Mark end of test
    */
   public stop(): void {
-    this._endTime = performance.now();
+    this._endTime = this.getTimer();
   }
 
   /**
