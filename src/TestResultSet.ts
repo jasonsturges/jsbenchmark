@@ -78,19 +78,4 @@ export class TestResultSet {
     ops/second: ${comma(this.averageOpsPerSecond.toFixed())}
     `);
   }
-
-  /**
-   * Table result in the console
-   */
-  public table(): void {
-    const data = [["Total Time", "Ops / Second"]];
-    this._results.forEach((result) => {
-      data.push([
-        result.totalTime.toFixed(5),
-        comma(result.opsPerSecond.toFixed()),
-      ]);
-    });
-
-    console.table(data);
-  }
 }
