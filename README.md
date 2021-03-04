@@ -18,7 +18,7 @@ import * as JSBench from "jsbenchmark";
 This package can benchmark individual tests, or a suite of test cases for comparison.
 
 
-## Test Suite
+## Defining a Test Suite
 
 To benchmark multiple test cases for comparison, add them into a test suite.
 
@@ -80,25 +80,37 @@ In the example above, each pass calls the function
 The above would output:
 
 ```
-Log10(100000)
-     min: 8.07500    avg: 9.08600    max: 10.39000    ops/second: 110,917,308
+double not operator
+    min: 6.25000    avg: 8.41969    max: 11.04000    ops/second: 123,911,231
 
-Log10(2)
-     min: 6.98500    avg: 8.55900    max: 10.39000    ops/second: 118,257,790
+or operator
+    min: 7.30000    avg: 9.52969    max: 10.75000    ops/second: 107,329,250
 
-Log10(1)
-     min: 6.98500    avg: 8.84733    max: 12.13000    ops/second: 115,240,134
+signed shift right operator
+    min: 7.07500    avg: 10.00412    max: 10.79500    ops/second: 101,645,033
 
-Log10(0)
-     min: 6.98500    avg: 9.54700    max: 12.54000    ops/second: 108,184,087
+parseInt
+    min: 11.74500    avg: 15.21844    max: 16.36500    ops/second: 66,107,377
 
-Fastest: Log10(100000)
-Slowest: Log10(0)
+round
+    min: 7.74000    avg: 11.05765    max: 11.87000    ops/second: 91,572,037
+
+floor
+    min: 7.85000    avg: 10.78206    max: 12.00000    ops/second: 93,988,418
+
+ceil
+    min: 8.81500    avg: 11.52324    max: 12.36500    ops/second: 87,225,180
+
+toFixed
+    min: 247.60500    avg: 258.02000    max: 264.34000    ops/second: 3,878,004
+
+Fastest: double not operator
+Slowest: toFixed
 ```
 
-The test is executed for ten passes, with each pass executing the function 1 million times unless maximum runtime exceeds one second.
+The test is executed for 25 passes, with each pass executing the function 1 million times unless maximum runtime exceeds one second.
 
-Optional parameters:
+Test Suite optional parameters:
 
 | Type | Property | Description |
 | --- | --- | --- |
