@@ -20,11 +20,11 @@ This package can benchmark individual tests, or a suite of test cases for compar
 
 ## Defining a Test Suite
 
-To benchmark multiple test cases for comparison, add them into a test suite.
+To benchmark multiple test cases for comparison, add them to a test suite.
 
-Each test is executed per the number of operations each pass, not exceeding the maximum runtime.
+Each test is executed per the number of passes, not exceeding the maximum runtime.
 
-Each pass calls the function for the specified number of times.  Ten passes with one million operations invokes the test function one million times per pass for a total of 10,000,000 calls.
+Each pass calls the function for the specified number of times.  For example, ten passes with one million operations invokes the test function one million times per pass for a total of 10,000,000 calls.
 
 Example test suite: Drop decimal from number
 
@@ -75,9 +75,7 @@ new JSBench.TestSuite({
 
 ```
 
-In the example above, each pass calls the function
-
-The above would output:
+Output from above example:
 
 ```
 double not operator
