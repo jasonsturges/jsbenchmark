@@ -68,8 +68,8 @@ new JSBench.TestSuite({
     resultSet.log();
   })
   .on("suite", (event) => {
-    const suiteResult = event.result;
-    suiteResult.log();
+    const result = event.result;
+    result.log();
   })
   .run();
 
@@ -277,7 +277,7 @@ Disadvantages:
 
 ## Individual Test
 
-Single test cases can be executed, per the numer of operations.
+Single test cases can be executed, per the number of operations.
 
 ```js
 import * as JSBench from "jsbenchmark"
@@ -356,9 +356,9 @@ Finally, on completion, use the `complete` event:
 
 In benchmarking, comparison of results is relative within the test suite.
 
-Ultimately the goal is to understand which operation is significantly outside the set - outlier that is much faster, or much slower.
+Ultimately the goal is to understand which operation is significantly outside the set - the outlier that is much faster, or much slower.
 
-If the intended purpose is to gain insight into true machine operations per second, manually test by defining your own test loops:
+If the intended purpose is to gain insight into true machine operations per second, manually test by defining your own test loops.
 
 Example:
 
@@ -390,8 +390,8 @@ new JSBench.TestSuite({
     resultSet.log();
   })
   .on("suite", (event) => {
-    const suiteResult = event.result;
-    suiteResult.log();
+    const result = event.result;
+    result.log();
   })
   .run();
 ```
@@ -406,4 +406,4 @@ Output from the above example:
     min: 2.06500    avg:  3.33000    max:  4.76000    ops/second: 311,779,625
 ```
 
-By removing function overhead, the manual operation gives greater insight into actual operation per second.
+By removing function overhead, the manual operation gives greater insight into actual operations per second.
