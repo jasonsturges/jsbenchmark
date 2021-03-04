@@ -122,7 +122,7 @@ Test Suite optional parameters:
 
 There are two methods to add tests:
 - `add()` - Add a test function, which is called once per operation
-- `addManual()` - Add a test function called only once in total
+- `addManual()` - Add a test function, called only once in total
 
 ### Add Test
 
@@ -157,11 +157,14 @@ Method signature: `add(name, fn)`
 | string | `name` | Name of the test case |
 | function | `fn` | Function to be tested |
 
-One advantage of this method is preventing loop optimizations such as hoisting or no-op that effectively render a test useless.
+One advantage of this method is preventing loop optimizations such as hoisting or no-op that effectively render a test invalid.
 
 Example:
 
 ```js
+let obj = {};
+
+new JSBench.TestSuite()
   .add("obj.hasOwnProperty(i);", (i) => {
     obj.hasOwnProperty(i);
   })
@@ -231,7 +234,7 @@ Method signature: `addManual(name, fn, operations)`
 | function | `fn` | Function to be tested |
 | number | `operations` | Number of operations being tested |
 
-Operation count is still import for reporting purposes, used to calculate operations per second.
+Operation count is still important for reporting purposes, used to calculate operations per second.
 
 Inside the test function, the operation count is passed to the function.  By default, it will use the test suite's operation count:
 
@@ -245,7 +248,7 @@ new JSBench.TestSuite({
 
 ```
 
-Otherwise, explicitly define operation count:
+Otherwise, explicitly define the operation count:
 
 ```js
 new JSBench.TestSuite({
@@ -348,3 +351,59 @@ Finally, on completion, use the `complete` event:
     console.log("All tests complete.");
   })
 ```
+
+# Comparing Results
+
+In benchmarking, comparison of results is relative within the test suite.
+
+Ultimately the goal is to understand which operation is significantly outside the set - outlier that is much faster, or much slower.
+
+If the intended purpose is to gain insight into true machine operations per second, manually test by defining your own test loops:
+
+Example:
+
+```js
+let n = 0;
+
+new JSBench.TestSuite({
+  async: true,
+  passes: 25,
+  operations: 1000000,
+  maxRuntime: 30000,
+})
+  .add("++n", () => {
+    return ++n;
+  })
+  .addManual(
+    "++n (manual)",
+    (operations) => {
+      for (let i = 0; i < operations; i++) {
+        ++n;
+      }
+    },
+    1000000
+  )
+  .on("test", (event) => {
+    const test = event.test;
+    const resultSet = event.resultSet;
+    console.log(test.name);
+    resultSet.log();
+  })
+  .on("suite", (event) => {
+    const suiteResult = event.result;
+    suiteResult.log();
+  })
+  .run();
+```
+
+Output from the above example:
+
+```
+++n
+    min: 8.15500    avg: 11.28820    max: 12.14500    ops/second:  90,034,364
+
+++n (manual)
+    min: 2.06500    avg:  3.33000    max:  4.76000    ops/second: 311,779,625
+```
+
+By removing function overhead, the manual operation gives greater insight into actual operation per second.
