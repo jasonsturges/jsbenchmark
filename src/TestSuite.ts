@@ -119,6 +119,7 @@ export class TestSuite extends EventDispatcher {
     }
 
     this.dispatch({ type: TestEvent.SUITE, result: suiteResult });
+    this.dispatch({ type: TestEvent.COMPLETE });
     return this;
   }
 }
