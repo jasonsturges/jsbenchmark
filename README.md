@@ -259,7 +259,7 @@ new JSBench.TestSuite({
     (operations) => {
       for (let i = 0; i < operations; i++) {}
     },
-    10000 // <!-- Use paremeter
+    10000 // <!-- Use parameter
   );
 
 ```
@@ -308,11 +308,11 @@ On each pass of a test, use the `pass` event:
 
 ```js
   .on("pass", (event) => {
-      const test = event.test;
-      const result = event.result;
+    const test = event.test;
+    const result = event.result;
 
-      console.log(test.name)
-      result.log();
+    console.log(test.name)
+    result.log();
   })
 ```
 
@@ -322,11 +322,11 @@ On completion of each test, use the `test` event:
 
 ```js
   .on("test", (event) => {
-      const test = event.test;
-      const resultSet = event.resultSet;
+    const test = event.test;
+    const resultSet = event.resultSet;
 
-      console.log(test.name)
-      resultSet.log();
+    console.log(test.name)
+    resultSet.log();
   })
 ```
 
@@ -336,9 +336,9 @@ On completion of all tests in the test suite, use the `suite` event:
 
 ```js
   .on("suite", (event) => {
-      const result = event.result;
+    const result = event.result;
 
-      result.log();
+    result.log();
   })
 ```
 
