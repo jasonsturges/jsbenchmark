@@ -43,7 +43,7 @@ new JSBench.TestSuite({
   .add("or operator", () => {
     Math.PI | 0;
   })
-  .add("signed shift right operator", () => {
+  .add("signed right shift operator", () => {
     Math.PI >> 0;
   })
   .add("parseInt", () => {
@@ -87,7 +87,7 @@ double not operator
 or operator
     min: 7.30000    avg: 9.52969    max: 10.75000    ops/second: 107,329,250
 
-signed shift right operator
+signed right shift operator
     min: 7.07500    avg: 10.00412    max: 10.79500    ops/second: 101,645,033
 
 parseInt
