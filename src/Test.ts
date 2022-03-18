@@ -1,12 +1,5 @@
 import { TestResult } from "./TestResult";
-
-/**
- * Optional parameters
- */
-type Options = {
-  operations: number;
-  manual: boolean;
-};
+import { TestOptions } from "./TestOptions";
 
 /**
  * Individual test case to measure execution
@@ -38,11 +31,11 @@ export class Test {
    * @param fn - Function to be called
    * @param options - Optional parameters
    */
-  constructor(name: string, fn: Function, options: Partial<Options> = {}) {
+  constructor(name: string, fn: Function, options: Partial<TestOptions> = {}) {
     this.name = name;
     this.fn = fn;
-
-    Object.assign(this, options);
+    this.operations = options?.operations ?? 1000;
+    this.manual = options?.manual ?? false;
 
     return this;
   }

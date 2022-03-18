@@ -20,9 +20,9 @@ export class TestSuiteResult {
   /**
    * Find the fastest result in the test suite
    */
-  public fastest(): Test {
+  public fastest(): Test | undefined {
     let ops: Number = Number.NEGATIVE_INFINITY;
-    let t: Test;
+    let t: Test | undefined;
 
     for (const [test, result] of this.results) {
       if (result.averageOpsPerSecond > ops) {
@@ -37,9 +37,9 @@ export class TestSuiteResult {
   /**
    * Find the slowest result in the test suite
    */
-  public slowest(): Test {
+  public slowest(): Test | undefined {
     let ops: Number = Number.POSITIVE_INFINITY;
-    let t: Test;
+    let t: Test | undefined;
 
     for (const [test, result] of this.results) {
       if (result.averageOpsPerSecond < ops) {
@@ -55,7 +55,7 @@ export class TestSuiteResult {
    * Log a result to the console
    */
   public log(): void {
-    console.log(`Fastest: ${this.fastest().name}`);
-    console.log(`Slowest: ${this.slowest().name}`);
+    console.log(`Fastest: ${this.fastest()?.name}`);
+    console.log(`Slowest: ${this.slowest()?.name}`);
   }
 }

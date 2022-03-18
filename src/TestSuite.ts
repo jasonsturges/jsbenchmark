@@ -1,25 +1,16 @@
-import { EventDispatcher } from "./EventDispatcher";
+import EventEmitter from "eventemitter3";
 import { Test } from "./Test";
 import { TestEvent } from "./TestEvent";
 import { TestResult } from "./TestResult";
 import { TestResultSet } from "./TestResultSet";
+import { TestSuiteOptions } from "./TestSuiteOptions";
 import { TestSuiteResult } from "./TestSuiteResult";
 import { sleep } from "./utils";
 
 /**
- * Optional parameters
- */
-type Options = {
-  async: boolean;
-  passes: number;
-  operations: number;
-  maxRuntime: number;
-};
-
-/**
  * Suite of test cases for comparison.
  */
-export class TestSuite extends EventDispatcher {
+export class TestSuite extends EventEmitter {
   private queue: Set<Test> = new Set<Test>();
 
   /**
@@ -47,18 +38,15 @@ export class TestSuite extends EventDispatcher {
   public passes: number = 5;
 
   /**
-   * @constructor
-   * @param options
+   * Constructor
    */
-  constructor(options: Partial<Options> = {}) {
+  constructor(options?: Partial<TestSuiteOptions>) {
     super();
 
-    this.async = options.async;
-    this.passes = options.passes;
-    this.operations = options.operations;
-    this.maxRuntime = options.maxRuntime;
-
-    Object.assign(this, options);
+    this.async = options?.async ?? true;
+    this.passes = options?.passes ?? 5;
+    this.operations = options?.operations ?? 1000;
+    this.maxRuntime = options?.maxRuntime ?? 1000;
 
     return this;
   }
@@ -125,7 +113,7 @@ export class TestSuite extends EventDispatcher {
 
         runtime = Date.now() - startTime;
 
-        this.dispatch({ type: TestEvent.PASS, test: test, result: result });
+        this.emit(TestEvent.PASS, { test: test, result: result });
 
         if (this.async) {
           await sleep(50);
@@ -133,11 +121,11 @@ export class TestSuite extends EventDispatcher {
       } while (pass < this.passes && runtime < this.maxRuntime);
 
       suiteResult.add(test, resultSet);
-      this.dispatch({ type: TestEvent.TEST, test: test, resultSet: resultSet });
+      this.emit(TestEvent.TEST, { test: test, resultSet: resultSet });
     }
 
-    this.dispatch({ type: TestEvent.SUITE, result: suiteResult });
-    this.dispatch({ type: TestEvent.COMPLETE });
+    this.emit(TestEvent.SUITE, { result: suiteResult });
+    this.emit(TestEvent.COMPLETE);
     return this;
   }
 }

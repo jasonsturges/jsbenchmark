@@ -1,13 +1,13 @@
 import { comma } from "./utils";
 
 export class TestResult {
-  private _startTime: number;
-  private _endTime: number;
+  private _startTime?: number | undefined;
+  private _endTime?: number | undefined;
 
   /**
    * Number of operations to execute per pass
    */
-  public operations: number;
+  public operations?: number | undefined;
 
   public getTimer(): number {
     if (typeof window !== "undefined") {
@@ -35,14 +35,22 @@ export class TestResult {
    * Calculate the total time
    */
   public get totalTime(): number {
-    return this._endTime - this._startTime;
+    if (this._endTime && this._startTime) {
+      return this._endTime - this._startTime;
+    }
+
+    return Number.POSITIVE_INFINITY;
   }
 
   /**
    * Calculate operations per second
    */
   public get opsPerSecond(): number {
-    return (1000 / this.totalTime) * this.operations;
+    if (this.operations) {
+      return (1000 / this.totalTime) * this.operations;
+    }
+
+    return 0;
   }
 
   /**
