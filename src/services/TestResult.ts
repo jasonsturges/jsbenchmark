@@ -1,4 +1,4 @@
-import { comma } from "./utils";
+import { comma } from "../utils/utils";
 
 export class TestResult {
   private _startTime?: number | undefined;

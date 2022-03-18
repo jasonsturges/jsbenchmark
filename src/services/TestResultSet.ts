@@ -1,27 +1,35 @@
-import { comma } from "./utils";
+import { comma } from "../utils/utils";
 import { TestResult } from "./TestResult";
 
 /**
  * Collection of test results
  */
 export class TestResultSet {
-  private _results: TestResult[] = [];
+  private _results?: TestResult[] | undefined;
+
+  constructor() {
+    this._results = [];
+  }
 
   /**
    * Add a test result to the result set.
    * @param result
    */
-  public add(result: TestResult) {
-    this._results.push(result);
+  public add(result: TestResult | undefined) {
+    if (!result) return;
+
+    this._results?.push(result);
   }
 
   /**
    * Calculate average total time across the result set.
    */
   public get averageTime(): number {
+    if (!this._results) return Number.NEGATIVE_INFINITY;
+
     let t: number = 0;
 
-    this._results.forEach((result) => {
+    this._results?.forEach((result) => {
       t += result.totalTime;
     });
 
@@ -32,6 +40,7 @@ export class TestResultSet {
    * Calculate average operations per second across the result set.
    */
   public get averageOpsPerSecond(): number {
+    if (!this._results) return Number.NEGATIVE_INFINITY;
     let ops: number = 0;
 
     this._results.forEach((result) => {
@@ -45,6 +54,7 @@ export class TestResultSet {
    * Calculate maximum execution time across the result set.
    */
   public get maxTime(): number {
+    if (!this._results) return Number.NEGATIVE_INFINITY;
     let t: number = Number.NEGATIVE_INFINITY;
 
     this._results.forEach((result) => {
@@ -58,6 +68,7 @@ export class TestResultSet {
    * Calculate minimum execution time across the result set.
    */
   public get minTime(): number {
+    if (!this._results) return Number.NEGATIVE_INFINITY;
     let t: number = Number.POSITIVE_INFINITY;
 
     this._results.forEach((result) => {
