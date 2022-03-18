@@ -2,6 +2,6 @@
  * Optional parameters
  */
 export type TestOptions = {
-  operations: number;
-  manual: boolean;
+  operations?: number | undefined;
+  manual?: boolean | undefined
 };
