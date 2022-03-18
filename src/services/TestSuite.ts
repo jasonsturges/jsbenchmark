@@ -1,6 +1,6 @@
 import EventEmitter from "eventemitter3";
 import { Test } from "./Test";
-import { TestEvent } from "./TestEvent";
+import { TestEvent } from "./events/TestEvent";
 import { TestResult } from "./TestResult";
 import { TestResultSet } from "./TestResultSet";
 import { TestSuiteOptions } from "./TestSuiteOptions";

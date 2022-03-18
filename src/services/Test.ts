@@ -31,7 +31,7 @@ export class Test {
    * @param fn - Function to be called
    * @param options - Optional parameters
    */
-  constructor(name: string, fn: Function, options: Partial<TestOptions> = {}) {
+  constructor(name: string, fn: Function, options?: Partial<TestOptions>) {
     this.name = name;
     this.fn = fn;
     this.operations = options?.operations ?? 1000;
