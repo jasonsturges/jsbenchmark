@@ -1,11 +1,11 @@
 import EventEmitter from "eventemitter3";
 import { Test } from "./Test";
-import { TestEvent } from "./events/TestEvent";
+import { TestEvent } from "../events/TestEvent";
 import { TestResult } from "./TestResult";
 import { TestResultSet } from "./TestResultSet";
 import { TestSuiteOptions } from "./TestSuiteOptions";
 import { TestSuiteResult } from "./TestSuiteResult";
-import { sleep } from "./utils";
+import { sleep } from "../utils/utils";
 
 /**
  * Suite of test cases for comparison.
@@ -93,7 +93,7 @@ export class TestSuite extends EventEmitter {
       let pass: number = 0;
       let runtime: number = 0;
       let startTime: number = Date.now();
-      let result: TestResult;
+      let result: TestResult | undefined;
 
       do {
         ++pass;
@@ -105,7 +105,7 @@ export class TestSuite extends EventEmitter {
         }
 
         // If time was immeasurable, disregard sample
-        if (result.totalTime === 0) {
+        if (result?.totalTime === 0) {
           --pass;
         } else {
           resultSet.add(result);
