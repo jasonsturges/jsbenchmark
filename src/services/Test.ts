@@ -8,22 +8,22 @@ export class Test {
   /**
    * Name of the test case
    */
-  public name: string;
+  public name: string | undefined;
 
   /**
    * Function to be called
    */
-  public fn: Function;
+  public fn: Function | undefined;
 
   /**
    * Minimum number of operations to execute each pass
    */
-  public operations: number = 1000;
+  public operations: number | undefined;
 
   /**
    * Whether loop operations are manually managed in the test function
    */
-  public manual: boolean = false;
+  public manual: boolean | undefined;
 
   /**
    * @constructor
@@ -45,13 +45,18 @@ export class Test {
    *
    * @returns {TestResult} - Test result of this pass
    */
-  public run(): TestResult {
-    const { fn } = this;
+  public run(): TestResult | undefined {
+    if (!this.fn) {
+      throw new Error("No test function defined");
+    }
+
+    const fn = this.fn;
+    const operations = this.operations ?? 1000;
     const result = new TestResult();
-    result.operations = this.operations;
+    result.operations = operations;
     result.start();
 
-    for (let i = 0; i < this.operations; i++) {
+    for (let i = 0; i < operations; i++) {
       fn.call(null, i);
     }
 
@@ -73,6 +78,10 @@ export class Test {
    * @returns {TestResult} - Test result of this pass
    */
   public runManual(): TestResult {
+    if (!this.fn) {
+      throw new Error("No test function defined");
+    }
+
     const { fn } = this;
     const result = new TestResult();
     result.operations = this.operations;
