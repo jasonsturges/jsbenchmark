@@ -5,7 +5,7 @@ import { TestResult } from "./TestResult";
  * Collection of test results
  */
 export class TestResultSet {
-  private _results?: TestResult[] | undefined;
+  private readonly _results?: TestResult[] | undefined;
 
   constructor() {
     this._results = [];
