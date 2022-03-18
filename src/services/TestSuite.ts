@@ -11,7 +11,7 @@ import { sleep } from "../utils/utils";
  * Suite of test cases for comparison.
  */
 export class TestSuite extends EventEmitter {
-  private queue: Set<Test> = new Set<Test>();
+  private readonly _queue?: Set<Test> | undefined;
 
   /**
    * Whether tests should be run asynchronously between passes.
@@ -43,6 +43,8 @@ export class TestSuite extends EventEmitter {
   constructor(options?: Partial<TestSuiteOptions>) {
     super();
 
+    this._queue = new Set<Test>();
+
     this.async = options?.async ?? true;
     this.passes = options?.passes ?? 5;
     this.operations = options?.operations ?? 1000;
@@ -60,7 +62,7 @@ export class TestSuite extends EventEmitter {
     const test = new Test(name, fn, {
       operations: this.operations,
     });
-    this.queue.add(test);
+    this._queue?.add(test);
 
     return this;
   }
@@ -75,7 +77,7 @@ export class TestSuite extends EventEmitter {
       operations: operations ?? this.operations,
       manual: true,
     });
-    this.queue.add(test);
+    this._queue?.add(test);
 
     return this;
   }
@@ -85,8 +87,9 @@ export class TestSuite extends EventEmitter {
    */
   public async run() {
     const suiteResult = new TestSuiteResult();
+    if (!this._queue) return suiteResult;
 
-    for (let test of this.queue) {
+    for (let test of this._queue) {
       // Test result set, containing all passes
       const resultSet = new TestResultSet();
 
